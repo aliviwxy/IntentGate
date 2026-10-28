@@ -1,0 +1,1 @@
+<resources><string name="app_name">IntentGate</string><string name="accessibility_description">Shows a required purpose and time prompt when opening selected apps. Only app-window package names are observed; screen content is not read.</string></resources>
