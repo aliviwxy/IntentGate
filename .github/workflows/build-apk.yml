@@ -48,10 +48,22 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Build debug APK
-        run: gradle --no-daemon --stacktrace :app:assembleDebug
+      - name: Build debug APK (capture full log)
+        shell: bash
+        run: |
+          set -o pipefail
+          gradle --no-daemon --stacktrace --info :app:assembleDebug 2>&1 | tee build.log
+
+      - name: Upload build log (also when build fails)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: IntentGate-build-log
+          path: build.log
+          if-no-files-found: warn
 
       - name: Upload installable APK
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: IntentGate-debug-APK
